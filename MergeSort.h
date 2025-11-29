@@ -4,18 +4,44 @@
 #include <vector>
 using namespace std;
 
+/**
+ * @class MergeSort
+ * @brief Szablonowa klasa implementująca algorytm sortowania przez scalanie.
+ *
+ * Klasa umożliwia sortowanie dowolnego typu danych T,
+ * który wspiera operator porównania `<`.
+ *
+ * @tparam T Typ danych przechowywany w wektorze.
+ */
 template <typename T>
-// MergeSort klasa która implementuje algorytm sortowania przez scalanie
 class MergeSort {
 public:
-    // Publiczna metoda do sortowania wektora
+
+    /**
+     * @brief Sortuje podany wektor za pomocą algorytmu Merge Sort.
+     *
+     * Funkcja jest publiczna i wywołuje rekurencyjną metodę sortującą.
+     * Jeżeli wektor posiada 0 lub 1 element — jest już posortowany.
+     *
+     * @param arr Referencja do wektora elementów do posortowania.
+     */
     void sort(vector<T>& arr) {
         if (arr.size() <= 1) return;
         mergeSort(arr, 0, arr.size() - 1);
     }
 
 private:
-    // Rekurencyjna metoda do dzielenia i scalania
+
+    /**
+     * @brief Rekurencyjna funkcja dzieląca wektor na części i je sortująca.
+     *
+     * Implementuje zasadę „dziel i zwyciężaj” — dzieli tablicę na dwie połowy,
+     * sortuje je, a następnie scala w jedną posortowaną całość.
+     *
+     * @param arr Referencja do wektora.
+     * @param left Indeks początku przedziału.
+     * @param right Indeks końca przedziału.
+     */
     void mergeSort(vector<T>& arr, int left, int right) {
         if (left >= right) return;
 
@@ -26,12 +52,23 @@ private:
         merge(arr, left, mid, right);
     }
 
-    // Metoda do scalania dwóch posortowanych połówek
+    /**
+     * @brief Scala dwie posortowane części tablicy w jedną większą posortowaną całość.
+     *
+     * Pierwsza część to przedział [left, mid],  
+     * druga część to przedział [mid + 1, right].
+     *
+     * @param arr Referencja do wektora.
+     * @param left Lewy indeks pierwszej części.
+     * @param mid Środkowy indeks — koniec pierwszej części.
+     * @param right Prawy indeks drugiej części.
+     */
     void merge(vector<T>& arr, int left, int mid, int right) {
         int i = left;
         int j = mid + 1;
         vector<T> temp;
-        // Scalanie dwóch połówek do tymczasowego wektora
+
+        // Scalanie dwóch posortowanych połówek
         while (i <= mid && j <= right) {
             if (arr[i] < arr[j]) {
                 temp.push_back(arr[i]);
@@ -41,17 +78,20 @@ private:
                 j++;
             }
         }
+
         // Dodawanie pozostałych elementów z lewej połowy
         while (i <= mid) {
             temp.push_back(arr[i]);
             i++;
         }
+
         // Dodawanie pozostałych elementów z prawej połowy
         while (j <= right) {
             temp.push_back(arr[j]);
             j++;
         }
-        // Kopiowanie posortowanych elementów z powrotem do oryginalnego wektora
+
+        // Przepisanie danych z powrotem do oryginalnego wektora
         for (int k = 0; k < temp.size(); k++) {
             arr[left + k] = temp[k];
         }
